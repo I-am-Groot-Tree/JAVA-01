@@ -1,4 +1,3 @@
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -13,7 +12,7 @@ import java.lang.reflect.Method;
 public class HelloClassLoader extends ClassLoader {
     @Override
     protected Class<?> findClass(String name) throws ClassNotFoundException {
-        File file = new File("G:\\test\\Hello.xlass");
+        File file = new File(HelloClassLoader.class.getResource("Hello.xlass").getFile());
         try {
             byte[] bytes = File2byte(file);
             for (int i = 0; i < bytes.length; i++) {
