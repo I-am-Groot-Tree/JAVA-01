@@ -1,4 +1,4 @@
-import java.util.concurrent.CountDownLatch;
+package homework;
 
 /**
  * 本周作业：（必做）思考有多少种方式，在main函数启动一个新线程或线程池，
@@ -7,26 +7,28 @@ import java.util.concurrent.CountDownLatch;
  * <p>
  * 一个简单的代码参考：
  */
-public class Homework03_CountDownLatch {
+public class Homework03_join {
 
-    private int result = 0;
-    private static final CountDownLatch cd = new CountDownLatch(1);
+    private volatile int result = 0;
 
     public static void main(String[] args) throws InterruptedException {
 
+        Homework03_join homework03 = new Homework03_join();
+
+        Thread t = new Thread(homework03::sum);
+
         long start = System.currentTimeMillis();
+        // 在这里创建一个线程或线程池，
         // 异步执行 下面方法
-        Homework03_CountDownLatch homework03 = new Homework03_CountDownLatch();
-        Thread t = new Thread(() -> {
-            homework03.sum();
-            cd.countDown();
-        });
         t.start();
-        cd.await();
+        t.join();
+
         // 确保  拿到result 并输出
         System.out.println("异步计算结果为：" + homework03.get());
 
         System.out.println("使用时间：" + (System.currentTimeMillis() - start) + " ms");
+
+        // 然后退出main线程
     }
 
     private Integer get() {
